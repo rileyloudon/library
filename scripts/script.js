@@ -25,15 +25,19 @@ const render = newBook => {
   li.innerHTML = newBook.info();
 };
 
-const submit = document.getElementById('submit');
-submit.addEventListener('click', () => {
-  const bookTitle = document.getElementById('book-title');
-  const bookAuthor = document.getElementById('book-author');
-  const bookRead = document.getElementById('read');
-  const bookNotRead = document.getElementById('not-read');
-  let bookStatus = bookRead ? bookRead.value : bookNotRead.value;
+const myForm = document.getElementById('myForm');
+myForm.addEventListener('submit', e => {
+  e.preventDefault();
+  let userBook = document.getElementById('book-title').value;
+  let userAuthor = document.getElementById('book-author').value;
+  let userBookRead = document.getElementById('read').checked;
+  let userBookNotRead = document.getElementById('not-read').checked;
 
-  addBookToLibrary(bookTitle, bookAuthor, bookStatus);
+  console.log(userBookRead, userBookNotRead);
+
+  userBookRead ? (userBookStatus = 'Read') : (userBookStatus = 'Want to Read');
+
+  addBookToLibrary(userBook, userAuthor, userBookStatus);
 });
 
 // const theHobbit = new Book('The Hobbot', 'J.R.R. Tolkien', '295', 'not read yet')

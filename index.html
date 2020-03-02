@@ -2,11 +2,50 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="description" content="A Library app to keep track of books." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/style.css" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprs&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Library</title>
   </head>
   <body>
+    <div id="library">
+      <form id="myForm">
+        <label class="material-icons" for="book-title">menu_book</label>
+        <input
+          type="text"
+          id="book-title"
+          name="book-title"
+          placeholder="Book Title"
+          required
+        />
+
+        <label class="material-icons" for="book-author">person</label>
+        <input
+          type="text"
+          id="book-author"
+          name="author-name"
+          placeholder="Author"
+        />
+
+        <input type="radio" id="read" name="book-status" />
+        <label for="read">Read</label>
+        <input type="radio" id="not-read" name="book-status" />
+        <label for="not-read">Want to Read</label>
+
+        <input id="submit" type="submit" value="Submit" />
+      </form>
+      <ul id="book-shelf"></ul>
+    </div>
     <script src="scripts/script.js"></script>
   </body>
 </html>
