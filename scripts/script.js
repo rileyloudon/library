@@ -17,7 +17,7 @@ const addBookToLibrary = (title, author, read) => {
 };
 
 const render = newBook => {
-  const bookShelf = document.getElementById('book-shelf');
+  const bookShelf = document.getElementById('bookshelf');
 
   const li = document.createElement('li');
   li.setAttribute('class', 'book');
@@ -35,7 +35,11 @@ myForm.addEventListener('submit', e => {
 
   console.log(userBookRead, userBookNotRead);
 
-  userBookRead ? (userBookStatus = 'Read') : (userBookStatus = 'Want to Read');
+  userBookRead
+    ? (userBookStatus = 'Read')
+    : userBookNotRead
+    ? (userBookStatus = 'Want to Read')
+    : (userBookStatus = 'Unknown');
 
   addBookToLibrary(userBook, userAuthor, userBookStatus);
 });
