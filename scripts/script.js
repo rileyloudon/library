@@ -1,4 +1,5 @@
 let myLibrary = [];
+let bookSuggestions = [];
 
 function Book(title, author, read) {
   this.title = title;
@@ -24,6 +25,20 @@ const render = newBook => {
   bookShelf.appendChild(li);
   li.innerHTML = newBook.info();
 };
+
+let userBookInput = document.getElementById('book-title');
+userBookInput.addEventListener('input', () => {
+  if (userBookInput.value.length >= 1) {
+    let findBooks =
+      'https://www.googleapis.com/books/v1/volumes?q=' +
+      encodeURIComponent(userBookInput.value) +
+      '&fields=items/volumeInfo(title,authors)';
+
+    fetch(findBooks)
+      .then(response => response.json())
+      .then(data => bookSuggestions.splice(0, 10, ...data.items));
+  }
+});
 
 const myForm = document.getElementById('myForm');
 myForm.addEventListener('submit', e => {
