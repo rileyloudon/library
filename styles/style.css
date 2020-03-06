@@ -13,27 +13,16 @@ body {
 }
 
 #inputs {
-  display: grid;
-  padding: 10px;
-  border: 2px solid var(--dark-secondary-color);
-  margin: auto;
-  width: 60vmin;
-  height: 25vh;
   margin-top: 5vh;
-  overflow: hidden;
-  box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.5);
 }
 
 #book-title {
-  margin-left: 5px;
 }
 
 #book-author {
-  margin-left: 5px;
 }
 
 #book-suggestions {
-  height: 15vh;
 }
 
 #inputs {
@@ -51,12 +40,27 @@ body {
 
 #read + label,
 #not-read + label {
-  padding: 10vmin;
+  outline: 1px solid wheat;
+  padding: 5px;
+  margin: 5px;
 }
+
 #read:checked + label {
   color: green;
 }
 
 #not-read:checked + label {
   color: aqua;
+}
+
+#submit {
+  margin-top: 5vh;
+}
+
+#books {
+  text-align: center;
+}
+
+#bookshelf li {
+  list-style: none;
 }
