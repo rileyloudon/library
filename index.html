@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprs&display=swap"
       rel="stylesheet"
     />
+
     <link
       href="https://fonts.googleapis.com/css?family=Lato&display=swap"
       rel="stylesheet"
@@ -19,32 +20,45 @@
   </head>
   <body>
     <div id="library">
-      <form id="myForm">
-        <label class="material-icons" for="book-title">menu_book</label>
-        <input
-          type="text"
-          id="book-title"
-          name="book-title"
-          placeholder="Book Title"
-          required
-        />
+        <form id="add-book" autocomplete="off">
+          <div class="book-input book-input-title">
+            <label class="material-icons" for="book-title">menu_book</label>
+            <input
+              type="text"
+              id="book-title"
+              name="book-title"
+              placeholder="Book Title"
+              autocomplete="off"
+              autocapitalize="words"
+              required
+            />
+          </div>
 
-        <label class="material-icons" for="book-author">person</label>
-        <input
-          type="text"
-          id="book-author"
-          name="author-name"
-          placeholder="Author"
-        />
+          <div class="book-input book-input-author">
+            <label class="material-icons" for="book-author">person</label>
+            <input
+              type="text"
+              id="book-author"
+              name="book-author"
+              placeholder="Author"
+              autocomplete="off"
+              autocapitalize="words"
+            />
+          </div>
 
-        <input type="radio" id="read" name="book-status" />
-        <label for="read">Read</label>
-        <input type="radio" id="not-read" name="book-status" />
-        <label for="not-read">Want to Read</label>
+          <br />
 
-        <input id="submit" type="submit" value="Submit" />
-      </form>
-      <ul id="book-shelf"></ul>
+          <input type="radio" id="read" name="book-status" />
+            <label for="read">Read</label>
+            <input type="radio" id="not-read" name="book-status" />
+            <label for="not-read">Read</label>
+          <br />
+          <input id="submit" type="submit" value="Submit" />
+        </form>
+      </div>
+      <div id="books">
+        <ul id="bookshelf"></ul>
+      </div>
     </div>
     <script src="scripts/script.js"></script>
   </body>

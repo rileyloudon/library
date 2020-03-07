@@ -12,37 +12,56 @@ body {
   color: var(--dark-secondary-color);
 }
 
-#inputs {
+#add-book {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 60vmin;
+  margin: auto;
   margin-top: 5vh;
+  /* border: 2px solid white; */
 }
 
-#book-title {
-}
+/* Text Inputs */
 
+#book-title,
 #book-author {
+  box-sizing: border-box;
+  margin-top: 1vh;
+  width: 75%;
+  font-size: 2.5vmin;
+  margin: 5px;
+  padding: 10px;
+  background-color: var(--dark-secondary-color);
 }
 
-#book-suggestions {
+.book-input-title {
+  grid-area: 1 / 1 / 2 / 4;
 }
 
-#inputs {
-  text-align: center;
+.book-input-author {
+  grid-area: 1 / 5 / 2 / 8;
 }
 
-#inputs .formGroup {
-  display: inline-block;
-}
-
+/* Radio Buttons */
 #read,
 #not-read {
   display: none;
+}
+
+#read + label {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+#not-read + label {
+  grid-area: 2 / 6 / 3 / 7;
 }
 
 #read + label,
 #not-read + label {
   outline: 1px solid wheat;
   padding: 5px;
-  margin: 5px;
+  margin: 10px;
 }
 
 #read:checked + label {
@@ -53,14 +72,18 @@ body {
   color: aqua;
 }
 
+/* Submit */
 #submit {
-  margin-top: 5vh;
+  grid-area: 3 / 3 / 4 / 6;
+  margin: 2vh;
 }
 
+/* Books Submitted */
 #books {
   text-align: center;
 }
 
 #bookshelf li {
   list-style: none;
+  font-size: 3vmin;
 }
