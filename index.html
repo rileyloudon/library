@@ -20,45 +20,40 @@
   </head>
   <body>
     <div id="library">
-        <form id="add-book" autocomplete="off">
-          <div class="book-input book-input-title">
-            <label class="material-icons" for="book-title">menu_book</label>
+      <form id="add-book" autocomplete="off" onsubmit="addBook(event)">
+        <div class="book-input book-input-title">
+          <label for="book-title">
             <input
               type="text"
               id="book-title"
               name="book-title"
               placeholder="Book Title"
               autocomplete="off"
-              autocapitalize="words"
               required
             />
-          </div>
+          </label>
+        </div>
 
-          <div class="book-input book-input-author">
-            <label class="material-icons" for="book-author">person</label>
+        <div class="book-input book-input-author">
+          <label for="book-author">
             <input
               type="text"
               id="book-author"
               name="book-author"
               placeholder="Author"
               autocomplete="off"
-              autocapitalize="words"
             />
-          </div>
+          </label>
+        </div>
 
-          <br />
+        <button id="unread" type="button">Unread</button>
+        <button id="read" type="button">Read</button>
 
-          <input type="radio" id="read" name="book-status" />
-            <label for="read">Read</label>
-            <input type="radio" id="not-read" name="book-status" />
-            <label for="not-read">Read</label>
-          <br />
-          <input id="submit" type="submit" value="Submit" />
-        </form>
-      </div>
-      <div id="books">
-        <ul id="bookshelf"></ul>
-      </div>
+        <button id="submit" type="submit">Add Book</button>
+      </form>
+    </div>
+    <div id="books">
+      <ul id="bookshelf"></ul>
     </div>
     <script src="scripts/script.js"></script>
   </body>
