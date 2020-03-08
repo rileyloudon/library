@@ -1,4 +1,5 @@
 let myLibrary = [];
+let bookStatus = 'unread';
 
 function Book(title, author, read) {
   this.title = title;
@@ -25,26 +26,31 @@ const render = newBook => {
   li.innerHTML = newBook.info();
 };
 
-const myForm = document.getElementById('add-book');
-myForm.addEventListener('submit', e => {
+const unread = document.getElementById('unread');
+const read = document.getElementById('read');
+unread.addEventListener('click', () => {
+  bookStatus = 'read';
+  unread.style.visibility = 'hidden';
+  read.style.visibility = 'visible';
+});
+
+read.addEventListener('click', () => {
+  bookStatus = 'unread';
+  unread.style.visibility = 'visible';
+  read.style.visibility = 'hidden';
+});
+
+const addBook = e => {
   e.preventDefault();
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
-  let userBookRead = document.getElementById('read').checked;
-  let userBookNotRead = document.getElementById('not-read').checked;
-
-  console.log(userBookRead, userBookNotRead);
-
-  userBookRead
-    ? (userBookStatus = 'Read')
-    : userBookNotRead
-    ? (userBookStatus = 'Want to Read')
-    : (userBookStatus = 'Unknown Status');
 
   userAuthor ? (userAuthor = userAuthor) : (userAuthor = 'Unknown');
-  addBookToLibrary(userBook, userAuthor, userBookStatus);
-  myForm.reset();
-});
+
+  addBookToLibrary(userBook, userAuthor, bookStatus);
+
+  document.getElementById('add-book').reset();
+};
 
 // const theHobbit = new Book('The Hobbot', 'J.R.R. Tolkien', '295', 'not read yet')
 
