@@ -46,24 +46,50 @@ body {
   grid-area: 1 / 5 / 2 / 8;
 }
 
-/* Unread/Read */
-#unread,
-#read {
+/* Read Checkbox */
+.book-status {
   grid-area: 3 / 4 / 4 / 5;
   font-size: 2.5vmin;
-  background-color: var(--dark-main-color);
-  border: var(--dark-main-color);
   cursor: pointer;
-}
-
-#unread {
-  color: #4debfb;
-  visibility: visible;
-}
-
-#read {
+  user-select: none;
   color: #8de09f;
-  visibility: hidden;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.book-status input {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  /* margin-top: 5px; */
+  margin-left: 15px;
+}
+
+.checkmark:after {
+  content: '';
+  display: none;
+}
+
+.book-status input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.book-status .checkmark:after {
+  width: 5px;
+  height: 15px;
+  border: solid #8de09f;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
 }
 
 /* Submit */
