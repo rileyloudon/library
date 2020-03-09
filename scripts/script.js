@@ -1,5 +1,4 @@
 let myLibrary = [];
-let bookStatus = 'unread';
 
 function Book(title, author, read) {
   this.title = title;
@@ -26,18 +25,9 @@ const render = newBook => {
   li.innerHTML = newBook.info();
 };
 
-const unread = document.getElementById('unread');
-const read = document.getElementById('read');
-unread.addEventListener('click', () => {
-  bookStatus = 'read';
-  unread.style.visibility = 'hidden';
-  read.style.visibility = 'visible';
-});
-
-read.addEventListener('click', () => {
-  bookStatus = 'unread';
-  unread.style.visibility = 'visible';
-  read.style.visibility = 'hidden';
+const setBookStatus = document.getElementById('book-status-checkbox');
+setBookStatus.addEventListener('click', () => {
+  setBookStatus.classList.toggle('read');
 });
 
 const addBook = e => {
@@ -45,6 +35,9 @@ const addBook = e => {
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
 
+  setBookStatus.classList.contains('read')
+    ? (bookStatus = 'Read')
+    : (bookStatus = 'Unread');
   userAuthor ? (userAuthor = userAuthor) : (userAuthor = 'Unknown');
 
   addBookToLibrary(userBook, userAuthor, bookStatus);
