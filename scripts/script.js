@@ -1,4 +1,5 @@
 let myLibrary = [];
+let bookStatus = '';
 
 function Book(title, author, read) {
   this.title = title;
@@ -20,14 +21,17 @@ const render = newBook => {
   const bookShelf = document.getElementById('bookshelf');
 
   const li = document.createElement('li');
-  li.setAttribute('class', 'book');
+  li.className = 'book';
+  bookStatus === 'Read'
+    ? (li.className += ' book-read')
+    : (li.className += ' book-unread');
   bookShelf.appendChild(li);
   li.innerHTML = newBook.info();
 };
 
-const setBookStatus = document.getElementById('book-status-checkbox');
-setBookStatus.addEventListener('click', () => {
-  setBookStatus.classList.toggle('read');
+const getBookStatus = document.getElementById('book-status-checkbox');
+getBookStatus.addEventListener('click', () => {
+  getBookStatus.classList.toggle('read');
 });
 
 const addBook = e => {
@@ -35,13 +39,17 @@ const addBook = e => {
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
 
-  setBookStatus.classList.contains('read')
+  getBookStatus.classList.contains('read')
     ? (bookStatus = 'Read')
     : (bookStatus = 'Unread');
+
   userAuthor ? (userAuthor = userAuthor) : (userAuthor = 'Unknown');
 
   addBookToLibrary(userBook, userAuthor, bookStatus);
 
+  if (getBookStatus.classList.contains('read')) {
+    getBookStatus.classList.remove('read');
+  }
   document.getElementById('add-book').reset();
 };
 
