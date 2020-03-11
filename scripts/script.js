@@ -8,7 +8,7 @@ function Book(title, author, read) {
 }
 
 Book.prototype.info = function() {
-  return this.title + ' by ' + this.author + ', ' + this.read;
+  return this.title + ' by ' + this.author;
 };
 
 const addBookToLibrary = (title, author, read) => {
@@ -18,14 +18,15 @@ const addBookToLibrary = (title, author, read) => {
 };
 
 const render = newBook => {
-  const bookShelf = document.getElementById('bookshelf');
+  const booksUnreadList = document.getElementById('unread');
+  const booksReadList = document.getElementById('read');
 
   const li = document.createElement('li');
   li.className = 'book';
+
   bookStatus === 'Read'
-    ? (li.className += ' book-read')
-    : (li.className += ' book-unread');
-  bookShelf.appendChild(li);
+    ? booksReadList.appendChild(li)
+    : booksUnreadList.appendChild(li);
   li.innerHTML = newBook.info();
 };
 

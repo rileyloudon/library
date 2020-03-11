@@ -32,7 +32,6 @@ body {
   margin-bottom: 5px;
   padding: 10px;
   background-color: var(--dark-secondary-color);
-  box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* #book-title {
@@ -103,15 +102,14 @@ body {
   height: 50%;
   font-size: 12px;
   cursor: pointer;
-  box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Books Submitted */
-#books {
+#bookshelf {
   text-align: center;
 }
 
-#bookshelf li {
+.book {
   list-style: none;
   font-size: 3vmin;
 }
