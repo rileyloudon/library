@@ -13,6 +13,20 @@ Book.prototype.info = function() {
 
 const addBookToLibrary = (title, author, read) => {
   const newBook = new Book(title, author, read);
+
+  // Make first letter uppercase, rest lowercase.
+  newBook.title = newBook.title
+    .toLowerCase()
+    .split(' ')
+    .map(title => title.charAt(0).toUpperCase() + title.substring(1))
+    .join(' ');
+
+  newBook.author = newBook.author
+    .toLowerCase()
+    .split(' ')
+    .map(author => author.charAt(0).toUpperCase() + author.substring(1))
+    .join(' ');
+
   myLibrary.push(newBook);
   render(newBook);
 };
@@ -27,6 +41,7 @@ const render = newBook => {
   bookStatus === 'Read'
     ? booksReadList.appendChild(li)
     : booksUnreadList.appendChild(li);
+
   li.innerHTML = newBook.info();
 };
 
