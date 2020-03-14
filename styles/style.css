@@ -39,9 +39,6 @@ label[for='book-author'] {
   font-size: 12px;
 }
 
-/* #book-title {
-} */
-
 .book-input-title {
   grid-area: 1 / 1 / 2 / 4;
 }
@@ -111,7 +108,15 @@ label[for='book-author'] {
 
 /* Books Submitted */
 #bookshelf {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#unread,
+#read {
+  padding: 0;
 }
 
 .book {
