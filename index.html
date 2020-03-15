@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/style.css" />
 
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprs&display=swap"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprschl&display=swap"
       rel="stylesheet"
     />
 
@@ -22,7 +22,8 @@
     <div id="library">
       <form id="add-book" autocomplete="off" onsubmit="addBook(event)">
         <div class="book-input book-input-title">
-          <label for="book-title"> Book Title
+          <label for="book-title">
+            Book Title
             <input
               type="text"
               id="book-title"
@@ -35,7 +36,8 @@
         </div>
 
         <div class="book-input book-input-author">
-          <label for="book-author"> Author
+          <label for="book-author">
+            Author
             <input
               type="text"
               id="book-author"
@@ -46,9 +48,11 @@
           </label>
         </div>
 
-        <label for="book-status-checkbox" class="book-status"> Read
-          <input id='book-status-checkbox' type="checkbox"></input>
-          <span class="checkmark"></span>
+        <label for="book-status-checkbox" class="book-status">
+          Read
+          <input id="book-status-checkbox" type="checkbox" />
+          <i class="material-icons unchecked">close</i>
+          <i class="material-icons checked">check</i>
         </label>
 
         <button id="submit" type="submit">Add Book</button>

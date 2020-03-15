@@ -17,6 +17,7 @@ body {
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(4, 1fr);
   width: 60vmin;
+  height: 20vh;
   margin: auto;
   margin-top: 5vh;
 }
@@ -26,7 +27,6 @@ body {
 #book-author {
   box-sizing: border-box;
   border: 2px solid black;
-  margin-top: 1vh;
   width: 100%;
   font-size: 2.5vmin;
   margin-bottom: 5px;
@@ -50,7 +50,10 @@ label[for='book-author'] {
 /* Read Checkbox */
 .book-status {
   grid-area: 3 / 4 / 4 / 5;
-  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
   cursor: pointer;
   user-select: none;
   color: #8de09f;
@@ -59,38 +62,26 @@ label[for='book-author'] {
   -moz-user-select: none;
 }
 
-.book-status input {
-  position: absolute;
-  cursor: pointer;
-  opacity: 0;
-  height: 0;
-  width: 0;
-}
-
-.checkmark {
-  position: absolute;
-  /* margin-top: 5px; */
-  margin-left: 15px;
-}
-
-.checkmark:after {
-  content: '';
+.book-status input[type='checkbox'],
+.book-status .checked {
   display: none;
 }
 
-.book-status input:checked ~ .checkmark:after {
-  display: block;
+.book-status input[type='checkbox']:checked ~ .checked {
+  padding-left: 5px;
+  padding-bottom: 3px;
+  display: inline-block;
+  color: #8de09f;
 }
 
-.book-status .checkmark:after {
-  width: 5px;
-  height: 15px;
-  border: solid #8de09f;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
+.book-status input[type='checkbox'],
+.book-status .unchecked {
+  padding-left: 5px;
+  color: #e09f8d;
+}
 
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
+.book-status input[type='checkbox']:checked ~ .unchecked {
+  display: none;
 }
 
 /* Submit */
@@ -101,7 +92,7 @@ label[for='book-author'] {
   box-sizing: border-box;
   border-radius: 15px;
   width: 100%;
-  height: 50%;
+  height: 85%;
   font-size: 12px;
   cursor: pointer;
 }
