@@ -99,15 +99,27 @@ label[for='book-author'] {
 
 /* Books Submitted */
 #bookshelf {
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-direction: column; */
+}
+
+#unread,
+#read {
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-#unread,
+#unread {
+  color: #e09f8d;
+}
+
 #read {
-  padding: 0;
+  color: #8de09f;
 }
 
 .book {
