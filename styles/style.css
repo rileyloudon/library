@@ -17,7 +17,7 @@ body {
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(4, 1fr);
   width: 60vmin;
-  height: 20vh;
+  height: 25vh;
   margin: auto;
   margin-top: 5vh;
 }
@@ -57,6 +57,7 @@ label[for='book-author'] {
   cursor: pointer;
   user-select: none;
   color: #8de09f;
+  padding: 10px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -77,6 +78,7 @@ label[for='book-author'] {
 .book-status input[type='checkbox'],
 .book-status .unchecked {
   padding-left: 5px;
+  padding-bottom: 3px;
   color: #e09f8d;
 }
 
