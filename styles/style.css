@@ -117,10 +117,12 @@ label[for='book-author'] {
 }
 
 #unread {
+  opacity: 0;
   color: #e09f8d;
 }
 
 #read {
+  opacity: 0;
   color: #8de09f;
 }
 
