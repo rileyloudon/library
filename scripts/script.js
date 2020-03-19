@@ -11,6 +11,12 @@ Book.prototype.info = function() {
   return this.title + ' by ' + this.author;
 };
 
+Book.prototype.delete = function() {
+  myLibrary = myLibrary.filter(e => {
+    return e !== this;
+  });
+};
+
 const addBookToLibrary = (title, author, read) => {
   const newBook = new Book(title, author, read);
 
@@ -39,8 +45,8 @@ const render = newBook => {
   li.className = 'book';
 
   bookStatus === 'Read'
-    ? booksReadList.appendChild(li)
-    : booksUnreadList.appendChild(li);
+    ? (booksReadList.appendChild(li), (booksReadList.style.opacity = '1'))
+    : (booksUnreadList.appendChild(li), (booksUnreadList.style.opacity = '1'));
 
   li.innerHTML = newBook.info();
 };
