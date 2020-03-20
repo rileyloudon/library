@@ -56,11 +56,18 @@ label[for='book-author'] {
   font-size: 16px;
   cursor: pointer;
   user-select: none;
-  color: #8de09f;
   padding: 10px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
+}
+
+input[type='checkbox'] + label {
+  color: #e09f8d;
+}
+
+input[type='checkbox']:checked + label {
+  color: #8de09f;
 }
 
 .book-status input[type='checkbox'],
