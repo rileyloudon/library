@@ -108,32 +108,40 @@ input[type='checkbox']:checked + label {
 
 /* Books Submitted */
 #bookshelf {
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-direction: column; */
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr 0.1fr 1fr;
 }
 
 #unread,
 #read {
-  padding: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
+  padding: 0;
 }
 
 #unread {
+  grid-area: 1 / 1 / 2 / 2;
   opacity: 0;
   color: #e09f8d;
 }
 
 #read {
+  grid-area: 3 / 1 / 4 / 2;
   opacity: 0;
   color: #8de09f;
+}
+
+.list-title {
 }
 
 .book {
   list-style: none;
   font-size: 3vmin;
 }
+
+/* Desktop: */
+/* grid-template-columns: repeat(2, 1fr) 0.25fr repeat(2, 1fr); */
+/* grid-template-rows: 1fr; */
