@@ -12,14 +12,29 @@ body {
   color: var(--dark-secondary-color);
 }
 
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+i.toggle-form {
+  margin-top: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
 #add-book {
-  display: grid;
+  /* display: grid; */
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(2, 1fr) repeat(2, 0.5fr);
   width: 60vmin;
   /* height: 25vh; */
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 3vh;
 }
 
 /* Text Inputs */

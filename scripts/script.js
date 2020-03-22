@@ -51,6 +51,16 @@ const render = newBook => {
   li.innerHTML = newBook.info();
 };
 
+const bookForm = document.getElementById('add-book');
+const toggleForm = document.querySelector('.toggle-form');
+toggleForm.addEventListener('click', () => {
+  if (bookForm.style.display === 'none') {
+    bookForm.style.display = 'grid';
+  } else {
+    bookForm.style.display = 'none';
+  }
+});
+
 const getBookStatus = document.getElementById('book-status-checkbox');
 getBookStatus.addEventListener('click', () => {
   getBookStatus.classList.toggle('read');

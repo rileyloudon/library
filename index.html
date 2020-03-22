@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/style.css" />
 
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprschl&display=swap"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons&text=menu_bokprschladi&display=swap"
       rel="stylesheet"
     />
 
@@ -20,7 +20,13 @@
   </head>
   <body>
     <div id="library">
-      <form id="add-book" autocomplete="off" onsubmit="addBook(event)">
+      <i class="material-icons md-36 toggle-form">add_circle</i>
+      <form
+        id="add-book"
+        autocomplete="off"
+        style="display: none;"
+        onsubmit="addBook(event)"
+      >
         <div class="book-input book-input-title">
           <label for="book-title">
             Book Title
