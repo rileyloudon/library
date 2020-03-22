@@ -1,6 +1,6 @@
 :root {
   --dark-main-color: #343332;
-  --dark-secondary-color: #dddddd;
+  --dark-secondary-color: #978de0;
 
   --light-main-color: #dddddd;
   --light-secondary-color: #343332;
@@ -15,9 +15,9 @@ body {
 #add-book {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr) repeat(2, 0.5fr);
   width: 60vmin;
-  height: 25vh;
+  /* height: 25vh; */
   margin: auto;
   margin-top: 5vh;
 }
@@ -26,25 +26,42 @@ body {
 #book-title,
 #book-author {
   box-sizing: border-box;
-  border: 2px solid black;
+  border: 1px solid var(--dark-secondary-color);
+  color: var(--dark-secondary-color);
   width: 100%;
-  font-size: 2.5vmin;
+  font-size: 1rem;
+  font-weight: 400;
   margin-bottom: 5px;
-  padding: 10px;
-  background-color: var(--dark-secondary-color);
+  padding: 12px 16px 12px 48px;
+  border-radius: 4px;
+  overflow: visible;
+  background-color: transparent;
+}
+
+#book-title::placeholder,
+#book-author::placeholder {
+  color: var(--dark-secondary-color);
 }
 
 label[for='book-title'],
 label[for='book-author'] {
-  font-size: 12px;
+  font-size: 0.75rem;
+}
+
+.icons {
+  float: left;
+  margin-left: 10px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 2;
 }
 
 .book-input-title {
-  grid-area: 1 / 1 / 2 / 4;
+  grid-area: 1 / 2 / 2 / 7;
 }
 
 .book-input-author {
-  grid-area: 1 / 5 / 2 / 8;
+  grid-area: 2 / 2 / 3 / 7;
 }
 
 /* Read Checkbox */
@@ -63,7 +80,8 @@ label[for='book-author'] {
 }
 
 input[type='checkbox'] + label {
-  color: #e09f8d;
+  /* color: #e09f8d; */
+  color: #e0928d;
 }
 
 input[type='checkbox']:checked + label {
@@ -86,7 +104,7 @@ input[type='checkbox']:checked + label {
 .book-status .unchecked {
   padding-left: 5px;
   padding-bottom: 3px;
-  color: #e09f8d;
+  color: #e0928d;
 }
 
 .book-status input[type='checkbox']:checked ~ .unchecked {
@@ -96,13 +114,14 @@ input[type='checkbox']:checked + label {
 /* Submit */
 #submit {
   grid-area: 4 / 3 / 5 / 6;
+  color: var(--dark-main-color);
   background-color: var(--dark-secondary-color);
-  border: 2px solid #000000;
+  border: none;
   box-sizing: border-box;
   border-radius: 15px;
   width: 100%;
-  height: 85%;
-  font-size: 12px;
+  height: 100%;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -123,23 +142,26 @@ input[type='checkbox']:checked + label {
 }
 
 #unread {
-  grid-area: 1 / 1 / 2 / 2;
   opacity: 0;
-  color: #e09f8d;
+  color: #e0928d;
+}
+
+.top {
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 #read {
-  grid-area: 3 / 1 / 4 / 2;
   opacity: 0;
   color: #8de09f;
 }
 
-.list-title {
+.bottom {
+  grid-area: 3 / 1 / 4 / 2;
 }
 
 .book {
   list-style: none;
-  font-size: 3vmin;
+  font-size: 1.5rem;
 }
 
 /* Desktop: */

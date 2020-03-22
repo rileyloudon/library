@@ -31,7 +31,10 @@
               placeholder="Book Title"
               autocomplete="off"
               required
+              oninvalid="this.setCustomValidity('Please Enter a Book')"
+              oninput="this.setCustomValidity('')"
             />
+            <span class="material-icons icons">menu_book</span>
           </label>
         </div>
 
@@ -45,6 +48,7 @@
               placeholder="Author"
               autocomplete="off"
             />
+            <span class="material-icons icons">person</span>
           </label>
         </div>
 
@@ -59,10 +63,10 @@
       </form>
     </div>
     <div id="bookshelf">
-      <ul id="unread">
+      <ul id="unread" class="top">
         Unread
       </ul>
-      <ul id="read">
+      <ul id="read" class="bottom">
         Read
       </ul>
     </div>
