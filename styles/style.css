@@ -160,7 +160,7 @@ input[type='checkbox']:checked + label {
 
 #unread {
   opacity: 0;
-  /* color: #e0928d; */
+  color: #e0928d;
 }
 
 .top {
@@ -169,7 +169,7 @@ input[type='checkbox']:checked + label {
 
 #read {
   opacity: 0;
-  /* color: #8de09f; */
+  color: #8de09f;
 }
 
 .bottom {
