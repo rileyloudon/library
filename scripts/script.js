@@ -52,7 +52,7 @@ const render = newBook => {
 };
 
 const bookForm = document.getElementById('add-book');
-const toggleForm = document.querySelector('.toggle-form');
+const toggleForm = document.querySelector('.toggle-form-button');
 toggleForm.addEventListener('click', () => {
   if (bookForm.style.display === 'none') {
     bookForm.style.display = 'grid';
