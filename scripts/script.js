@@ -34,21 +34,27 @@ const addBookToLibrary = (title, author, read) => {
     .join(' ');
 
   myLibrary.push(newBook);
-  render(newBook);
+  render();
 };
 
-const render = newBook => {
+const render = () => {
   const booksUnreadList = document.getElementById('unread');
   const booksReadList = document.getElementById('read');
 
-  const li = document.createElement('li');
-  li.className = 'book';
+  booksUnreadList.innerHTML = 'Unread';
+  booksReadList.innerHTML = 'Read';
 
-  bookStatus === 'Read'
-    ? (booksReadList.appendChild(li), (booksReadList.style.opacity = '1'))
-    : (booksUnreadList.appendChild(li), (booksUnreadList.style.opacity = '1'));
+  myLibrary.forEach(book => {
+    const li = document.createElement('li');
+    li.className = 'book';
 
-  li.innerHTML = newBook.info();
+    book.read === 'Read'
+      ? (booksReadList.appendChild(li), (booksReadList.style.opacity = '1'))
+      : (booksUnreadList.appendChild(li),
+        (booksUnreadList.style.opacity = '1'));
+
+    li.innerHTML = book.info();
+  });
 };
 
 const bookForm = document.getElementById('add-book');
@@ -56,8 +62,10 @@ const toggleForm = document.querySelector('.toggle-form-button');
 toggleForm.addEventListener('click', () => {
   if (bookForm.style.display === 'none') {
     bookForm.style.display = 'grid';
+    toggleForm.innerHTML = 'Close';
   } else {
     bookForm.style.display = 'none';
+    toggleForm.innerHTML = 'Add Book';
   }
 });
 
