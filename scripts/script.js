@@ -42,16 +42,23 @@ const render = () => {
   const booksReadList = document.getElementById('read');
 
   booksUnreadList.innerHTML = 'Unread';
+
   booksReadList.innerHTML = 'Read';
 
   myLibrary.forEach(book => {
     const li = document.createElement('li');
+
+    li.addEventListener('click', () => {
+      // book.delete();
+      book.read === 'Read' ? (book.read = 'Unread') : (book.read = 'Read');
+      render();
+    });
+
     li.className = 'book';
 
     book.read === 'Read'
-      ? (booksReadList.appendChild(li), (booksReadList.style.opacity = '1'))
-      : (booksUnreadList.appendChild(li),
-        (booksUnreadList.style.opacity = '1'));
+      ? booksReadList.appendChild(li)
+      : booksUnreadList.appendChild(li);
 
     li.innerHTML = book.info();
   });
@@ -62,9 +69,11 @@ const toggleForm = document.querySelector('.toggle-form-button');
 toggleForm.addEventListener('click', () => {
   if (bookForm.style.display === 'none') {
     bookForm.style.display = 'grid';
+    toggleForm.style.backgroundColor = '#e0928d';
     toggleForm.innerHTML = 'Close';
   } else {
     bookForm.style.display = 'none';
+    toggleForm.style.backgroundColor = '#978de0';
     toggleForm.innerHTML = 'Add Book';
   }
 });
