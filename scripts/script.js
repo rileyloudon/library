@@ -42,27 +42,38 @@ const render = () => {
   const booksReadList = document.getElementById('read');
 
   booksUnreadList.innerHTML = 'Unread';
-
   booksReadList.innerHTML = 'Read';
 
   myLibrary.forEach(book => {
     const li = document.createElement('li');
+    const span = document.createElement('span');
 
     li.addEventListener('click', () => {
-      // book.delete();
       book.read === 'Read' ? (book.read = 'Unread') : (book.read = 'Read');
       render();
     });
 
+    span.addEventListener('click', () => {
+      book.delete();
+      render();
+    });
+
     li.className = 'book';
+    span.className = 'material-icons delete';
 
     book.read === 'Read'
       ? booksReadList.appendChild(li)
       : booksUnreadList.appendChild(li);
 
     li.innerHTML = book.info();
+    span.innerHTML = 'delete_forever';
+    li.appendChild(span);
   });
 };
+
+/* <span class="material-icons">
+delete_forever
+</span> */
 
 const bookForm = document.getElementById('add-book');
 const toggleForm = document.querySelector('.toggle-form-button');

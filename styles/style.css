@@ -172,18 +172,23 @@ input[type='checkbox']:checked + label {
 }
 
 #unread {
-  opacity: 0;
   color: #e0928d;
 }
 
 #read {
-  opacity: 0;
   color: #8de09f;
 }
 
 .book {
   list-style: none;
   font-size: 1.5rem;
+}
+
+.delete {
+  float: right;
+  margin-left: 15px;
+  margin-top: 2px;
+  position: relative;
 }
 
 /* Desktop: */
