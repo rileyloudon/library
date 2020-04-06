@@ -185,10 +185,12 @@ input[type='checkbox']:checked + label {
 }
 
 .delete {
+  color: var(--dark-secondary-color);
   float: right;
   margin-left: 15px;
   margin-top: 2px;
   position: relative;
+  cursor: pointer;
 }
 
 /* Desktop: */
