@@ -12,7 +12,7 @@ Book.prototype.info = function() {
 };
 
 Book.prototype.delete = function() {
-  myLibrary = myLibrary.filter((e) => {
+  myLibrary = myLibrary.filter(e => {
     return e !== this;
   });
 };
@@ -24,13 +24,13 @@ const addBookToLibrary = (title, author, read) => {
   newBook.title = newBook.title
     .toLowerCase()
     .split(' ')
-    .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
+    .map(title => title.charAt(0).toUpperCase() + title.substring(1))
     .join(' ');
 
   newBook.author = newBook.author
     .toLowerCase()
     .split(' ')
-    .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
+    .map(author => author.charAt(0).toUpperCase() + author.substring(1))
     .join(' ');
 
   myLibrary.push(newBook);
@@ -44,7 +44,7 @@ const render = () => {
   booksUnreadList.innerHTML = 'Unread';
   booksReadList.innerHTML = 'Read';
 
-  myLibrary.forEach((book) => {
+  myLibrary.forEach(book => {
     const li = document.createElement('li');
     const span = document.createElement('span');
 
@@ -71,6 +71,15 @@ const render = () => {
     span.innerHTML = 'delete_forever';
     li.appendChild(span);
   });
+
+  // Hide Unread/Read title if there are no books of that type.
+  booksUnreadList.innerHTML === 'Unread'
+    ? (booksUnreadList.style.opacity = '0')
+    : (booksUnreadList.style.opacity = '1');
+
+  booksReadList.innerHTML === 'Read'
+    ? (booksReadList.style.opacity = '0')
+    : (booksReadList.style.opacity = '1');
 };
 
 const bookForm = document.getElementById('add-book');
@@ -92,7 +101,7 @@ getBookStatus.addEventListener('click', () => {
   getBookStatus.classList.toggle('read');
 });
 
-const addBook = (e) => {
+const addBook = e => {
   e.preventDefault();
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
@@ -115,13 +124,13 @@ const addBook = (e) => {
 
 if (localStorage.getItem('books')) {
   retrievedBooks = JSON.parse(localStorage.getItem('books'));
-  retrievedBooks.forEach((item) => {
+  retrievedBooks.forEach(item => {
     addBookToLibrary(item.title, item.author, item.read);
     render();
   });
 }
 
-// const theHobbit = new Book('The Hobbot', 'J.R.R. Tolkien', '295', 'not read yet')
+// const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'not read yet')
 
 // Support Google Books Autoconplete one day?
 // let bookSuggestions = [];
