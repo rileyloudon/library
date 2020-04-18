@@ -46,40 +46,54 @@ const render = () => {
 
   myLibrary.forEach(book => {
     const li = document.createElement('li');
-    const span = document.createElement('span');
 
     li.addEventListener('click', () => {
-      book.read === 'Read' ? (book.read = 'Unread') : (book.read = 'Read');
-      localStorage.setItem('books', JSON.stringify(myLibrary));
-      render();
-    });
+      const bookModal = document.getElementById('book-modal');
+      bookModal.style.display = 'grid';
 
-    span.addEventListener('click', () => {
-      book.delete();
-      localStorage.setItem('books', JSON.stringify(myLibrary));
-      render();
+      document.getElementById('book-modal-title').innerHTML = book.title;
+      document.getElementById('book-modal-author').innerHTML =
+        'By ' + book.author;
+
+      document
+        .getElementById('book-modal-close')
+        .addEventListener('click', () => {
+          document.getElementById('book-modal-status-checkbox').checked
+            ? (book.read = 'Read')
+            : (book.read = 'Unread');
+
+          localStorage.setItem('books', JSON.stringify(myLibrary));
+          render();
+          bookModal.style.display = 'none';
+        });
+
+      document
+        .getElementById('book-modal-delete')
+        .addEventListener('click', () => {
+          book.delete();
+          localStorage.setItem('books', JSON.stringify(myLibrary));
+          render();
+          bookModal.style.display = 'none';
+        });
     });
 
     li.className = 'book';
-    span.className = 'material-icons delete';
 
     book.read === 'Read'
       ? booksReadList.appendChild(li)
       : booksUnreadList.appendChild(li);
 
     li.innerHTML = book.info();
-    span.innerHTML = 'delete_forever';
-    li.appendChild(span);
   });
 
   // Hide Unread/Read title if there are no books of that type.
   booksUnreadList.innerHTML === 'Unread'
-    ? (booksUnreadList.style.opacity = '0')
-    : (booksUnreadList.style.opacity = '1');
+    ? (booksUnreadList.style.display = 'none')
+    : (booksUnreadList.style.display = 'flex');
 
   booksReadList.innerHTML === 'Read'
-    ? (booksReadList.style.opacity = '0')
-    : (booksReadList.style.opacity = '1');
+    ? (booksReadList.style.display = 'none')
+    : (booksReadList.style.display = 'flex');
 };
 
 const bookForm = document.getElementById('add-book');
