@@ -17,6 +17,20 @@ Book.prototype.delete = function() {
   });
 };
 
+const bookForm = document.getElementById('add-book');
+const toggleForm = document.querySelector('.toggle-form-button');
+toggleForm.addEventListener('click', () => {
+  if (bookForm.style.display === 'none') {
+    bookForm.style.display = 'grid';
+    toggleForm.style.backgroundColor = '#e0928d';
+    toggleForm.innerHTML = 'Close';
+  } else {
+    bookForm.style.display = 'none';
+    toggleForm.style.backgroundColor = '#978de0';
+    toggleForm.innerHTML = 'Add Book';
+  }
+});
+
 const addBookToLibrary = (title, author, read) => {
   const newBook = new Book(title, author, read);
 
@@ -46,38 +60,11 @@ const render = () => {
 
   myLibrary.forEach(book => {
     const li = document.createElement('li');
-
-    li.addEventListener('click', () => {
-      const bookModal = document.getElementById('book-modal');
-      bookModal.style.display = 'grid';
-
-      document.getElementById('book-modal-title').innerHTML = book.title;
-      document.getElementById('book-modal-author').innerHTML =
-        'By ' + book.author;
-
-      document
-        .getElementById('book-modal-close')
-        .addEventListener('click', () => {
-          document.getElementById('book-modal-status-checkbox').checked
-            ? (book.read = 'Read')
-            : (book.read = 'Unread');
-
-          localStorage.setItem('books', JSON.stringify(myLibrary));
-          render();
-          bookModal.style.display = 'none';
-        });
-
-      document
-        .getElementById('book-modal-delete')
-        .addEventListener('click', () => {
-          book.delete();
-          localStorage.setItem('books', JSON.stringify(myLibrary));
-          render();
-          bookModal.style.display = 'none';
-        });
-    });
-
     li.className = 'book';
+    li.addEventListener('click', () => {
+      // console.log(event.target.innerHTML);
+      openBookModal(book);
+    });
 
     book.read === 'Read'
       ? booksReadList.appendChild(li)
@@ -88,39 +75,52 @@ const render = () => {
 
   // Hide Unread/Read title if there are no books of that type.
   booksUnreadList.innerHTML === 'Unread'
-    ? (booksUnreadList.style.display = 'none')
-    : (booksUnreadList.style.display = 'flex');
+    ? (booksUnreadList.style.opacity = '0')
+    : (booksUnreadList.style.opacity = '1');
 
   booksReadList.innerHTML === 'Read'
-    ? (booksReadList.style.display = 'none')
-    : (booksReadList.style.display = 'flex');
+    ? (booksReadList.style.opacity = '0')
+    : (booksReadList.style.opacity = '1');
 };
 
-const bookForm = document.getElementById('add-book');
-const toggleForm = document.querySelector('.toggle-form-button');
-toggleForm.addEventListener('click', () => {
-  if (bookForm.style.display === 'none') {
-    bookForm.style.display = 'grid';
-    toggleForm.style.backgroundColor = '#e0928d';
-    toggleForm.innerHTML = 'Close';
-  } else {
-    bookForm.style.display = 'none';
-    toggleForm.style.backgroundColor = '#978de0';
-    toggleForm.innerHTML = 'Add Book';
-  }
-});
+function openBookModal(book) {
+  bookForm.style.display = 'none';
+  toggleForm.style.backgroundColor = '#978de0';
+  toggleForm.innerHTML = 'Add Book';
 
-const getBookStatus = document.getElementById('book-status-checkbox');
-getBookStatus.addEventListener('click', () => {
-  getBookStatus.classList.toggle('read');
-});
+  const bookModal = document.getElementById('book-modal');
+  bookModal.style.display = 'grid';
+
+  document.getElementById('book-modal-title').innerHTML = book.title;
+  document.getElementById('book-modal-author').innerHTML = 'By ' + book.author;
+
+  document
+    .getElementById('book-modal-mark-complete')
+    .addEventListener('click', () => {
+      book.read = 'Read';
+      render();
+      localStorage.setItem('books', JSON.stringify(myLibrary));
+      bookModal.style.display = 'none';
+    });
+
+  document.getElementById('book-modal-close').addEventListener('click', () => {
+    bookModal.style.display = 'none';
+  });
+
+  document.getElementById('book-modal-delete').addEventListener('click', () => {
+    book.delete();
+    render();
+    localStorage.setItem('books', JSON.stringify(myLibrary));
+    bookModal.style.display = 'none';
+  });
+}
 
 const addBook = e => {
   e.preventDefault();
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
 
-  getBookStatus.classList.contains('read')
+  document.getElementById('book-status-checkbox').checked
     ? (bookStatus = 'Read')
     : (bookStatus = 'Unread');
 
@@ -128,9 +128,6 @@ const addBook = e => {
 
   addBookToLibrary(userBook, userAuthor, bookStatus);
 
-  if (getBookStatus.classList.contains('read')) {
-    getBookStatus.classList.remove('read');
-  }
   document.getElementById('add-book').reset();
 
   localStorage.setItem('books', JSON.stringify(myLibrary));
