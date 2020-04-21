@@ -1,5 +1,4 @@
 let myLibrary = [];
-let bookStatus = '';
 
 function Book(title, author, read) {
   this.title = title;
@@ -58,11 +57,12 @@ const render = () => {
   booksUnreadList.innerHTML = 'Unread';
   booksReadList.innerHTML = 'Read';
 
+  console.log(myLibrary);
   myLibrary.forEach(book => {
+    console.log(book);
     const li = document.createElement('li');
     li.className = 'book';
     li.addEventListener('click', () => {
-      // console.log(event.target.innerHTML);
       openBookModal(book);
     });
 
@@ -73,6 +73,7 @@ const render = () => {
     li.innerHTML = book.info();
   });
 
+
   // Hide Unread/Read title if there are no books of that type.
   booksUnreadList.innerHTML === 'Unread'
     ? (booksUnreadList.style.opacity = '0')
@@ -81,6 +82,8 @@ const render = () => {
   booksReadList.innerHTML === 'Read'
     ? (booksReadList.style.opacity = '0')
     : (booksReadList.style.opacity = '1');
+
+  localStorage.setItem('books', JSON.stringify(myLibrary));
 };
 
 function openBookModal(book) {
@@ -97,9 +100,9 @@ function openBookModal(book) {
   document
     .getElementById('book-modal-mark-complete')
     .addEventListener('click', () => {
+      // debugger;
       book.read = 'Read';
       render();
-      localStorage.setItem('books', JSON.stringify(myLibrary));
       bookModal.style.display = 'none';
     });
 
@@ -108,9 +111,9 @@ function openBookModal(book) {
   });
 
   document.getElementById('book-modal-delete').addEventListener('click', () => {
+    // debugger;
     book.delete();
     render();
-    localStorage.setItem('books', JSON.stringify(myLibrary));
     bookModal.style.display = 'none';
   });
 }
@@ -120,6 +123,7 @@ const addBook = e => {
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
 
+  let bookStatus = '';
   document.getElementById('book-status-checkbox').checked
     ? (bookStatus = 'Read')
     : (bookStatus = 'Unread');
@@ -137,7 +141,6 @@ if (localStorage.getItem('books')) {
   retrievedBooks = JSON.parse(localStorage.getItem('books'));
   retrievedBooks.forEach(item => {
     addBookToLibrary(item.title, item.author, item.read);
-    render();
   });
 }
 
