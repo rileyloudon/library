@@ -1,4 +1,5 @@
 let myLibrary = [];
+let currentBook = {};
 
 function Book(title, author, read) {
   this.title = title;
@@ -11,9 +12,13 @@ Book.prototype.info = function() {
 };
 
 Book.prototype.delete = function() {
-  myLibrary = myLibrary.filter(e => {
+  myLibrary = myLibrary.filter((e) => {
     return e !== this;
   });
+};
+
+Book.prototype.markComplete = function() {
+  return (this.read = 'Read');
 };
 
 const bookForm = document.getElementById('add-book');
@@ -37,13 +42,13 @@ const addBookToLibrary = (title, author, read) => {
   newBook.title = newBook.title
     .toLowerCase()
     .split(' ')
-    .map(title => title.charAt(0).toUpperCase() + title.substring(1))
+    .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
     .join(' ');
 
   newBook.author = newBook.author
     .toLowerCase()
     .split(' ')
-    .map(author => author.charAt(0).toUpperCase() + author.substring(1))
+    .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
     .join(' ');
 
   myLibrary.push(newBook);
@@ -58,21 +63,20 @@ const render = () => {
   booksReadList.innerHTML = 'Read';
 
   console.log(myLibrary);
-  myLibrary.forEach(book => {
+  myLibrary.forEach((book) => {
     console.log(book);
     const li = document.createElement('li');
     li.className = 'book';
-    li.addEventListener('click', () => {
-      openBookModal(book);
-    });
 
     book.read === 'Read'
       ? booksReadList.appendChild(li)
       : booksUnreadList.appendChild(li);
 
     li.innerHTML = book.info();
+    li.addEventListener('click', function handler() {
+      openBookModal(book);
+    });
   });
-
 
   // Hide Unread/Read title if there are no books of that type.
   booksUnreadList.innerHTML === 'Unread'
@@ -87,6 +91,8 @@ const render = () => {
 };
 
 function openBookModal(book) {
+  currentBook = book;
+
   bookForm.style.display = 'none';
   toggleForm.style.backgroundColor = '#978de0';
   toggleForm.innerHTML = 'Add Book';
@@ -100,25 +106,23 @@ function openBookModal(book) {
   document
     .getElementById('book-modal-mark-complete')
     .addEventListener('click', () => {
-      // debugger;
-      book.read = 'Read';
+      book.markComplete();
       render();
       bookModal.style.display = 'none';
     });
 
-  document.getElementById('book-modal-close').addEventListener('click', () => {
+  document.getElementById('book-modal-delete').addEventListener('click', () => {
+    currentBook.delete();
+    render();
     bookModal.style.display = 'none';
   });
 
-  document.getElementById('book-modal-delete').addEventListener('click', () => {
-    // debugger;
-    book.delete();
-    render();
+  document.getElementById('book-modal-close').addEventListener('click', () => {
     bookModal.style.display = 'none';
   });
 }
 
-const addBook = e => {
+const addBook = (e) => {
   e.preventDefault();
   let userBook = document.getElementById('book-title').value;
   let userAuthor = document.getElementById('book-author').value;
@@ -139,7 +143,7 @@ const addBook = e => {
 
 if (localStorage.getItem('books')) {
   retrievedBooks = JSON.parse(localStorage.getItem('books'));
-  retrievedBooks.forEach(item => {
+  retrievedBooks.forEach((item) => {
     addBookToLibrary(item.title, item.author, item.read);
   });
 }
