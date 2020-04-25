@@ -1,10 +1,11 @@
 let myLibrary = [];
 let currentBook = {};
 
-function Book(title, author, read) {
+function Book(title, author, read, dateAdded) {
   this.title = title;
   this.author = author;
   this.read = read;
+  this.dateAdded = dateAdded;
 }
 
 Book.prototype.info = function() {
@@ -18,7 +19,7 @@ Book.prototype.delete = function() {
 };
 
 Book.prototype.markComplete = function() {
-  return (this.read = 'Read');
+  return (this.read = 'read');
 };
 
 const bookForm = document.getElementById('add-book');
@@ -35,22 +36,8 @@ toggleForm.addEventListener('click', () => {
   }
 });
 
-const addBookToLibrary = (title, author, read) => {
-  const newBook = new Book(title, author, read);
-
-  // Make first letter uppercase, rest lowercase.
-  newBook.title = newBook.title
-    .toLowerCase()
-    .split(' ')
-    .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
-    .join(' ');
-
-  newBook.author = newBook.author
-    .toLowerCase()
-    .split(' ')
-    .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
-    .join(' ');
-
+const addBookToLibrary = (title, author, read, dateAdded) => {
+  const newBook = new Book(title, author, read, dateAdded);
   myLibrary.push(newBook);
   render();
 };
@@ -68,7 +55,7 @@ const render = () => {
     const li = document.createElement('li');
     li.className = 'book';
 
-    book.read === 'Read'
+    book.read === 'read'
       ? booksReadList.appendChild(li)
       : booksUnreadList.appendChild(li);
 
@@ -100,41 +87,86 @@ function openBookModal(book) {
   const bookModal = document.getElementById('book-modal');
   bookModal.style.display = 'grid';
 
-  document.getElementById('book-modal-title').innerHTML = book.title;
-  document.getElementById('book-modal-author').innerHTML = 'By ' + book.author;
+  document.getElementById('book-modal-title').innerHTML = currentBook.title;
+  document.getElementById('book-modal-author').innerHTML =
+    'By ' + currentBook.author;
 
-  document
-    .getElementById('book-modal-mark-complete')
-    .addEventListener('click', () => {
-      book.markComplete();
-      render();
-      bookModal.style.display = 'none';
-    });
+  // If a book was added before tracking dateAdded, reaplce Undefined with ---
+  currentBook.dateAdded
+    ? (currentBook.dateAdded = currentBook.dateAdded)
+    : (currentBook.dateAdded = ' ---');
 
-  document.getElementById('book-modal-delete').addEventListener('click', () => {
-    currentBook.delete();
+  document.getElementById('book-modal-date-added').innerHTML =
+    'Added: ' + currentBook.dateAdded;
+
+  const bmMarkComplete = document.getElementById('book-modal-mark-complete');
+  bmMarkComplete.addEventListener('click', markReadHandler);
+
+  const bmDelete = document.getElementById('book-modal-delete');
+  bmDelete.addEventListener('click', deleteHandler);
+
+  function markReadHandler() {
+    currentBook.markComplete();
     render();
     bookModal.style.display = 'none';
-  });
+
+    bmMarkComplete.removeEventListener('click', markReadHandler);
+    bmDelete.removeEventListener('click', deleteHandler);
+  }
 
   document.getElementById('book-modal-close').addEventListener('click', () => {
     bookModal.style.display = 'none';
+
+    bmMarkComplete.removeEventListener('click', markReadHandler);
+    bmDelete.removeEventListener('click', deleteHandler);
   });
+
+  function deleteHandler() {
+    book.delete();
+    render();
+    bookModal.style.display = 'none';
+
+    bmMarkComplete.removeEventListener('click', markReadHandler);
+    bmDelete.removeEventListener('click', deleteHandler);
+  }
 }
 
 const addBook = (e) => {
+  // Prevent the page from refreshing on submit.
   e.preventDefault();
+
+  // Title:
   let userBook = document.getElementById('book-title').value;
+  // Make first letter uppercase, rest lowercase.
+  userBook = userBook
+    .toLowerCase()
+    .split(' ')
+    .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
+    .join(' ');
+
+  // Author
   let userAuthor = document.getElementById('book-author').value;
-
-  let bookStatus = '';
-  document.getElementById('book-status-checkbox').checked
-    ? (bookStatus = 'Read')
-    : (bookStatus = 'Unread');
-
+  userAuthor = userAuthor
+    .toLowerCase()
+    .split(' ')
+    .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
+    .join(' ');
+  // If author is left empty, use Unknown
   userAuthor ? (userAuthor = userAuthor) : (userAuthor = 'Unknown');
 
-  addBookToLibrary(userBook, userAuthor, bookStatus);
+  // Read checkbox:
+  let bookStatus = '';
+  document.getElementById('book-status-checkbox').checked
+    ? (bookStatus = 'read')
+    : (bookStatus = 'unread');
+
+  // Date Added:
+  let day = new Date().getDate();
+  let month = new Date().getMonth();
+  let year = new Date().getFullYear();
+  let dateAdded = Number(month) + 1 + '/' + day + '/' + year;
+
+  addBookToLibrary(userBook, userAuthor, bookStatus, dateAdded);
 
   document.getElementById('add-book').reset();
 
@@ -144,7 +176,7 @@ const addBook = (e) => {
 if (localStorage.getItem('books')) {
   retrievedBooks = JSON.parse(localStorage.getItem('books'));
   retrievedBooks.forEach((item) => {
-    addBookToLibrary(item.title, item.author, item.read);
+    addBookToLibrary(item.title, item.author, item.read, item.dateAdded);
   });
 }
 
