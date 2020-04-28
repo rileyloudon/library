@@ -1,15 +1,20 @@
 let myLibrary = [];
 let currentBook = {};
 
-function Book(title, author, read, dateAdded) {
+function Book(title, author, read, dateAdded, dateCompleted) {
   this.title = title;
   this.author = author;
   this.read = read;
   this.dateAdded = dateAdded;
+  this.dateCompleted = dateCompleted;
 }
 
 Book.prototype.info = function() {
   return this.title + ' by ' + this.author;
+};
+
+Book.prototype.markComplete = function() {
+  return (this.read = 'read');
 };
 
 Book.prototype.delete = function() {
@@ -18,8 +23,11 @@ Book.prototype.delete = function() {
   });
 };
 
-Book.prototype.markComplete = function() {
-  return (this.read = 'read');
+const todaysDate = () => {
+  let day = new Date().getDate();
+  let month = new Date().getMonth();
+  let year = new Date().getFullYear();
+  return Number(month) + 1 + '/' + day + '/' + year;
 };
 
 const bookForm = document.getElementById('add-book');
@@ -36,8 +44,8 @@ toggleForm.addEventListener('click', () => {
   }
 });
 
-const addBookToLibrary = (title, author, read, dateAdded) => {
-  const newBook = new Book(title, author, read, dateAdded);
+const addBookToLibrary = (title, author, read, dateAdded, dateCompleted) => {
+  const newBook = new Book(title, author, read, dateAdded, dateCompleted);
   myLibrary.push(newBook);
   render();
 };
@@ -80,24 +88,34 @@ const render = () => {
 function openBookModal(book) {
   currentBook = book;
 
+  // Hide the Add Book form.
   bookForm.style.display = 'none';
   toggleForm.style.backgroundColor = '#978de0';
   toggleForm.innerHTML = 'Add Book';
 
+  // Display the modal
   const bookModal = document.getElementById('book-modal');
   bookModal.style.display = 'grid';
 
+  // Display the title of the book clicked in the modal.
   document.getElementById('book-modal-title').innerHTML = currentBook.title;
+  // Display the author of the book clicked in the modal.
   document.getElementById('book-modal-author').innerHTML =
     'By ' + currentBook.author;
 
   // If a book was added before tracking dateAdded, reaplce Undefined with ---
   currentBook.dateAdded
     ? (currentBook.dateAdded = currentBook.dateAdded)
-    : (currentBook.dateAdded = ' ---');
-
+    : (currentBook.dateAdded = '-/-/-');
+  // Display the date added property in the modal.
   document.getElementById('book-modal-date-added').innerHTML =
     'Added: ' + currentBook.dateAdded;
+
+  // If the book is marked read, display the date completed.
+  currentBook.read === 'read'
+    ? (document.getElementById('book-modal-date-completed').innerHTML =
+        'Completed: ' + currentBook.dateCompleted)
+    : (document.getElementById('book-modal-date-completed').innerHTML = '');
 
   const bmMarkComplete = document.getElementById('book-modal-mark-complete');
   bmMarkComplete.addEventListener('click', markReadHandler);
@@ -107,6 +125,7 @@ function openBookModal(book) {
 
   function markReadHandler() {
     currentBook.markComplete();
+    currentBook.dateCompleted = todaysDate();
     render();
     bookModal.style.display = 'none';
 
@@ -156,17 +175,16 @@ const addBook = (e) => {
 
   // Read checkbox:
   let bookStatus = '';
+  let dateCompleted = 'Incomplete';
   document.getElementById('book-status-checkbox').checked
     ? (bookStatus = 'read')
     : (bookStatus = 'unread');
+  if (bookStatus === 'read') dateCompleted = todaysDate();
 
   // Date Added:
-  let day = new Date().getDate();
-  let month = new Date().getMonth();
-  let year = new Date().getFullYear();
-  let dateAdded = Number(month) + 1 + '/' + day + '/' + year;
+  dateAdded = todaysDate();
 
-  addBookToLibrary(userBook, userAuthor, bookStatus, dateAdded);
+  addBookToLibrary(userBook, userAuthor, bookStatus, dateAdded, dateCompleted);
 
   document.getElementById('add-book').reset();
 
@@ -176,7 +194,13 @@ const addBook = (e) => {
 if (localStorage.getItem('books')) {
   retrievedBooks = JSON.parse(localStorage.getItem('books'));
   retrievedBooks.forEach((item) => {
-    addBookToLibrary(item.title, item.author, item.read, item.dateAdded);
+    addBookToLibrary(
+      item.title,
+      item.author,
+      item.read,
+      item.dateAdded,
+      item.dateCompleted,
+    );
   });
 }
 
