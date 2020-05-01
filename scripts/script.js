@@ -25,6 +25,19 @@ Book.prototype.delete = function() {
 
 const todaysDate = () => {
   let day = new Date().getDate();
+  let nth = (day) => {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
   let monthNumber = new Date().getMonth();
   let months = [
     'January',
@@ -42,7 +55,7 @@ const todaysDate = () => {
   ];
   let monthName = months[monthNumber];
   let year = new Date().getFullYear();
-  return monthName + ' ' + day + ', ' + year;
+  return monthName + ' ' + day + nth(day) + ', ' + year;
 };
 
 const bookForm = document.getElementById('add-book');
