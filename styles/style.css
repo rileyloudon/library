@@ -393,7 +393,6 @@ input[type='checkbox']:checked + label {
   }
 
   #book-modal-date-completed {
-    grid-area: 4 / 1 / 5 / 9;
     color: var(--light-read-color);
   }
 
