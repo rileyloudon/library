@@ -53,9 +53,8 @@ const todaysDate = () => {
     'November',
     'December',
   ];
-  let monthName = months[monthNumber];
   let year = new Date().getFullYear();
-  return monthName + ' ' + day + nth(day) + ', ' + year;
+  return months[monthNumber] + ' ' + day + nth(day) + ', ' + year;
 };
 
 const bookForm = document.getElementById('add-book');
@@ -139,12 +138,6 @@ function openBookModal(book) {
   document.getElementById('book-modal-date-added').innerHTML =
     'Added: ' + currentBook.dateAdded;
 
-  // If the book is marked read, display the date completed.
-  currentBook.read === 'read'
-    ? (document.getElementById('book-modal-date-completed').innerHTML =
-        'Completed: ' + currentBook.dateCompleted)
-    : (document.getElementById('book-modal-date-completed').innerHTML = '');
-
   const bmMarkComplete = document.getElementById('book-modal-mark-complete');
   bmMarkComplete.addEventListener('click', markReadHandler);
 
@@ -161,7 +154,8 @@ function openBookModal(book) {
     bmDelete.removeEventListener('click', deleteHandler);
   }
 
-  document.getElementById('book-modal-close').addEventListener('click', () => {
+  bmClose = document.getElementById('book-modal-close');
+  bmClose.addEventListener('click', () => {
     bookModal.style.display = 'none';
 
     bmMarkComplete.removeEventListener('click', markReadHandler);
@@ -176,6 +170,19 @@ function openBookModal(book) {
     bmMarkComplete.removeEventListener('click', markReadHandler);
     bmDelete.removeEventListener('click', deleteHandler);
   }
+
+  // If the book is marked read, display the date completed, remove the Read button
+  // and center the Close button.
+  if (currentBook.read === 'read') {
+    document.getElementById('book-modal-date-completed').innerHTML =
+      'Completed: ' + currentBook.dateCompleted;
+    bmMarkComplete.style.display = 'none';
+    bmClose.style.gridArea = '5 / 3 / 6 / 7';
+  } else {
+    document.getElementById('book-modal-date-completed').innerHTML = '';
+    bmMarkComplete.style.display = 'flex';
+    bmClose.style.gridArea = '5 / 5 / 6 / 9';
+  }
 }
 
 const addBook = (e) => {
@@ -184,12 +191,15 @@ const addBook = (e) => {
 
   // Title:
   let userBook = document.getElementById('book-title').value;
-  // Make first letter uppercase, rest lowercase.
+  // Make first letter uppercase, rest lowercase. Or after a period. (eg. J.K Rowling)
   userBook = userBook
     .toLowerCase()
     .split(' ')
     .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
-    .join(' ');
+    .join(' ')
+    .split('.')
+    .map((title) => title.charAt(0).toUpperCase() + title.substring(1))
+    .join('.');
 
   // Author
   let userAuthor = document.getElementById('book-author').value;
@@ -197,7 +207,10 @@ const addBook = (e) => {
     .toLowerCase()
     .split(' ')
     .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
-    .join(' ');
+    .join(' ')
+    .split('.')
+    .map((author) => author.charAt(0).toUpperCase() + author.substring(1))
+    .join('.');
   // If author is left empty, use Unknown
   userAuthor ? (userAuthor = userAuthor) : (userAuthor = 'Unknown');
 
