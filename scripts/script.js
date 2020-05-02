@@ -66,7 +66,7 @@ toggleForm.addEventListener('click', () => {
     toggleForm.innerHTML = 'Close';
   } else {
     bookForm.style.display = 'none';
-    toggleForm.style.backgroundColor = '#978de0';
+    toggleForm.style.backgroundColor = '';
     toggleForm.innerHTML = 'Add Book';
   }
 });
@@ -117,7 +117,7 @@ function openBookModal(book) {
 
   // Hide the Add Book form.
   bookForm.style.display = 'none';
-  toggleForm.style.backgroundColor = '#978de0';
+  toggleForm.style.backgroundColor = '';
   toggleForm.innerHTML = 'Add Book';
 
   // Display the modal
