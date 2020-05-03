@@ -4,10 +4,10 @@
   --dark-read-color: #8de09f;
   --dark-unread-color: #e0928d;
 
-  --light-main-color: #dddddd;
-  --light-secondary-color: #9c5de8;
-  --light-read-color: #428d35;
-  --light-unread-color: #e9355b;
+  --light-main-color: #eee;
+  --light-secondary-color: #33057c;
+  --light-read-color: #007c00;
+  --light-unread-color: #9d0000;
 }
 
 body {
