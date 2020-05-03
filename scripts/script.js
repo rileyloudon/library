@@ -1,5 +1,4 @@
 let myLibrary = [];
-let currentBook = {};
 
 function Book(title, author, read, dateAdded, dateCompleted) {
   this.title = title;
@@ -17,6 +16,7 @@ Book.prototype.markComplete = function() {
   return (this.read = 'read');
 };
 
+// Returns myLibrary with all the books except the book that was passed.
 Book.prototype.delete = function() {
   myLibrary = myLibrary.filter((e) => {
     return e !== this;
@@ -24,6 +24,7 @@ Book.prototype.delete = function() {
 };
 
 const todaysDate = () => {
+  // Get Day. Uses a switch + if to add the proper ending to numbers. eg. 1st/2nd/3rd
   let day = new Date().getDate();
   let nth = (day) => {
     if (day > 3 && day < 21) return 'th';
@@ -38,8 +39,9 @@ const todaysDate = () => {
         return 'th';
     }
   };
+  // Get Month. Uses the month number to select the proper month name.
   let monthNumber = new Date().getMonth();
-  let months = [
+  let monthNames = [
     'January',
     'February',
     'March',
@@ -53,53 +55,65 @@ const todaysDate = () => {
     'November',
     'December',
   ];
+  // Get Year
   let year = new Date().getFullYear();
-  return months[monthNumber] + ' ' + day + nth(day) + ', ' + year;
+  // Combine them all.
+  return monthNames[monthNumber] + ' ' + day + nth(day) + ', ' + year;
 };
 
+// When the Add Book button is pressed, display the form for adding books.
 const bookForm = document.getElementById('add-book');
 const toggleForm = document.querySelector('.toggle-form-button');
 toggleForm.addEventListener('click', () => {
   if (bookForm.style.display === 'none') {
     bookForm.style.display = 'grid';
+    // Change 'Add Book' to 'Close'.
+    toggleForm.innerHTML = 'Close';
 
-    window.matchMedia &&
+    // Change the Close button to the proper unread color - light or dark.
     window.matchMedia('(prefers-color-scheme: light)').matches
       ? (toggleForm.style.backgroundColor = 'var(--light-unread-color)')
       : (toggleForm.style.backgroundColor = 'var(--dark-unread-color)');
-
-    toggleForm.innerHTML = 'Close';
   } else {
+    // Change them all back. Empty background color uses the color from CSS.
     bookForm.style.display = 'none';
     toggleForm.style.backgroundColor = '';
     toggleForm.innerHTML = 'Add Book';
   }
 });
 
+// Push each book to myLibrary. Then display everything.
 const addBookToLibrary = (title, author, read, dateAdded, dateCompleted) => {
   const newBook = new Book(title, author, read, dateAdded, dateCompleted);
   myLibrary.push(newBook);
   render();
 };
 
+// Display everything in myLibrary.
 const render = () => {
   const booksUnreadList = document.getElementById('unread');
   const booksReadList = document.getElementById('read');
 
+  // Set the titles of each list.
+  // This also prevents books from appearing multiple times by resetting the list to just the title.
   booksUnreadList.innerHTML = 'Unread';
   booksReadList.innerHTML = 'Read';
 
-  console.log(myLibrary);
+  // For each book in myLibrary do the following:
   myLibrary.forEach((book) => {
-    console.log(book);
+    // Create a li with the class book.
     const li = document.createElement('li');
     li.className = 'book';
 
+    // Fill the li with the book's info.
+    li.innerHTML = book.info();
+
+    // Place the book in its proper list - read or unread.
     book.read === 'read'
       ? booksReadList.appendChild(li)
       : booksUnreadList.appendChild(li);
 
-    li.innerHTML = book.info();
+    // Add an event listener to the book so when it's clicked a modal appears with more options for that book.
     li.addEventListener('click', function handler() {
       openBookModal(book);
     });
@@ -114,13 +128,15 @@ const render = () => {
     ? (booksReadList.style.opacity = '0')
     : (booksReadList.style.opacity = '1');
 
+  // Add the book to local storage. This allows the books to be saved during reload.
   localStorage.setItem('books', JSON.stringify(myLibrary));
 };
 
+// Function for the book modal.
 function openBookModal(book) {
-  currentBook = book;
+  let currentBook = book;
 
-  // Hide the Add Book form.
+  // Reset the Add Book form to be hidden.
   bookForm.style.display = 'none';
   toggleForm.style.backgroundColor = '';
   toggleForm.innerHTML = 'Add Book';
@@ -135,43 +151,58 @@ function openBookModal(book) {
   document.getElementById('book-modal-author').innerHTML =
     'By ' + currentBook.author;
 
-  // If a book was added before tracking dateAdded, reaplce Undefined with ---
+  // If a book was added before tracking dateAdded, reaplce Undefined with -/-/-
   currentBook.dateAdded
     ? (currentBook.dateAdded = currentBook.dateAdded)
     : (currentBook.dateAdded = '-/-/-');
-  // Display the date added property in the modal.
+  // Display the date added in the modal.
   document.getElementById('book-modal-date-added').innerHTML =
     'Added: ' + currentBook.dateAdded;
 
+  // Add an event listener to the Read button.
   const bmMarkComplete = document.getElementById('book-modal-mark-complete');
   bmMarkComplete.addEventListener('click', markReadHandler);
 
+  // Add an event listener to the delete button (Trash Can)
   const bmDelete = document.getElementById('book-modal-delete');
   bmDelete.addEventListener('click', deleteHandler);
 
+  // When the Read button is clicked do the following:
   function markReadHandler() {
+    // Update the current book from Unread -> Read.
     currentBook.markComplete();
+    // Set the date completed to the current date.
     currentBook.dateCompleted = todaysDate();
+    // Rerender myLibrary, to update the position of the complete book.
     render();
+    // Hide the modal.
     bookModal.style.display = 'none';
 
+    // Remove the event listeners so they don't fire on the wrong book.
     bmMarkComplete.removeEventListener('click', markReadHandler);
     bmDelete.removeEventListener('click', deleteHandler);
   }
 
+  // Simply close the book modal when clicking Close.
   bmClose = document.getElementById('book-modal-close');
   bmClose.addEventListener('click', () => {
     bookModal.style.display = 'none';
 
+    // Remove the event listeners so they don't fire on the wrong book.
     bmMarkComplete.removeEventListener('click', markReadHandler);
     bmDelete.removeEventListener('click', deleteHandler);
   });
 
+  // When the trash can is clicked, do the following:
   function deleteHandler() {
-    book.delete();
+    // Pass the current book to the prototype delete. This will delete it.
+    currentBook.delete();
+    // Rerender myLibrary. This time without the deleted book.
     render();
+    // Close the modal.
     bookModal.style.display = 'none';
 
+    // Remove the event listeners so they don't fire on the wrong book.
     bmMarkComplete.removeEventListener('click', markReadHandler);
     bmDelete.removeEventListener('click', deleteHandler);
   }
@@ -196,7 +227,7 @@ const addBook = (e) => {
 
   // Title:
   let userBook = document.getElementById('book-title').value;
-  // Make first letter uppercase, rest lowercase. Or after a period. (eg. J.K Rowling)
+  // Make first letter uppercase, rest lowercase. And after a period. (eg. J.K Rowling)
   userBook = userBook
     .toLowerCase()
     .split(' ')
@@ -225,6 +256,7 @@ const addBook = (e) => {
   document.getElementById('book-status-checkbox').checked
     ? (bookStatus = 'read')
     : (bookStatus = 'unread');
+  // If the book is already completed, set the date completed to today.
   if (bookStatus === 'read') dateCompleted = todaysDate();
 
   // Date Added:
@@ -249,35 +281,3 @@ if (localStorage.getItem('books')) {
     );
   });
 }
-
-// const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'not read yet')
-
-// Support Google Books Autoconplete one day?
-// let bookSuggestions = [];
-
-// let userBookInput = document.getElementById('book-title');
-// userBookInput.addEventListener('input', () => {
-//   if (userBookInput.value.length >= 1) {
-//     let findBooks =
-//       'https://www.googleapis.com/books/v1/volumes?q=' +
-//       encodeURIComponent(userBookInput.value) +
-//       '&maxResults=5&langRestrict=en&fields=items/volumeInfo(title,authors)';
-
-//     fetch(findBooks)
-//       .then(response => response.json())
-//       .then(data => getBookSuggestions(data));
-//   }
-// });
-
-// const getBookSuggestions = data => {
-//   bookSuggestions.splice(0, 5, ...data.items);
-
-//   const bookShelf = document.getElementById('bookshelf');
-//   bookSuggestions.forEach(book => {
-//     console.log(book.volumeInfo.title + ' by ' + book.volumeInfo.authors);
-//     const li = document.createElement('li');
-//     li.setAttribute('class', 'book');
-//     bookShelf.appendChild(li);
-//     li.innerHTML = book.volumeInfo.title + ' by ' + book.volumeInfo.authors;
-//   });
-// };
