@@ -4,8 +4,10 @@
   --dark-read-color: #8de09f;
   --dark-unread-color: #e0928d;
 
-  --light-main-color: #dddddd;
-  --light-secondary-color: #343332;
+  --light-main-color: #eee;
+  --light-secondary-color: #33057c;
+  --light-read-color: #007c00;
+  --light-unread-color: #9d0000;
 }
 
 body {
@@ -323,5 +325,87 @@ input[type='checkbox']:checked + label {
     left: 90%;
     top: 5vh;
     transform: translate(-90%);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: var(--light-main-color);
+    color: var(--light-secondary-color);
+  }
+
+  .toggle-form-button {
+    color: var(--light-main-color);
+    background-color: var(--light-secondary-color);
+  }
+
+  #book-title,
+  #book-author {
+    border: 1px solid var(--light-secondary-color);
+    color: var(--light-secondary-color);
+  }
+
+  #book-title::placeholder,
+  #book-author::placeholder {
+    color: var(--light-secondary-color);
+  }
+  input[type='checkbox'] + label {
+    color: var(--light-unread-color);
+  }
+
+  input[type='checkbox']:checked + label {
+    color: var(--light-read-color);
+  }
+
+  .book-status input[type='checkbox']:checked ~ .checked {
+    color: var(--light-read-color);
+  }
+
+  .book-status input[type='checkbox'],
+  .book-status .unchecked {
+    color: var(--light-unread-color);
+  }
+
+  .submit {
+    color: var(--light-main-color);
+    background-color: var(--light-secondary-color);
+  }
+
+  #unread {
+    color: var(--light-unread-color);
+  }
+
+  #read {
+    color: var(--light-read-color);
+  }
+
+  #book-modal {
+    background-color: var(--light-main-color);
+    border: 2px solid var(--light-secondary-color);
+  }
+
+  #book-modal-delete {
+    color: var(--light-unread-color);
+  }
+
+  #book-modal-date-added {
+    color: var(--light-unread-color);
+  }
+
+  #book-modal-date-completed {
+    color: var(--light-read-color);
+  }
+
+  #book-modal-close,
+  #book-modal-mark-complete {
+    color: var(--light-main-color);
+  }
+
+  #book-modal-mark-complete {
+    background-color: var(--light-read-color);
+  }
+
+  #book-modal-close {
+    background-color: var(--light-secondary-color);
   }
 }

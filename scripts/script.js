@@ -62,11 +62,16 @@ const toggleForm = document.querySelector('.toggle-form-button');
 toggleForm.addEventListener('click', () => {
   if (bookForm.style.display === 'none') {
     bookForm.style.display = 'grid';
-    toggleForm.style.backgroundColor = '#e0928d';
+
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: light)').matches
+      ? (toggleForm.style.backgroundColor = 'var(--light-unread-color)')
+      : (toggleForm.style.backgroundColor = 'var(--dark-unread-color)');
+
     toggleForm.innerHTML = 'Close';
   } else {
     bookForm.style.display = 'none';
-    toggleForm.style.backgroundColor = '#978de0';
+    toggleForm.style.backgroundColor = '';
     toggleForm.innerHTML = 'Add Book';
   }
 });
@@ -117,7 +122,7 @@ function openBookModal(book) {
 
   // Hide the Add Book form.
   bookForm.style.display = 'none';
-  toggleForm.style.backgroundColor = '#978de0';
+  toggleForm.style.backgroundColor = '';
   toggleForm.innerHTML = 'Add Book';
 
   // Display the modal
