@@ -187,6 +187,7 @@ input[type='checkbox']:checked + label {
   font-size: 1.3em;
   list-style: none;
   text-align: center;
+  cursor: pointer;
 }
 
 /* Book Modal - Opens when a book is clicked. */
